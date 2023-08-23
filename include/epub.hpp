@@ -3,12 +3,18 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <filesystem>
+
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+
 #include "libzippp.h"
 
 using StrList = std::vector<std::string>;
 using Zip = libzippp::ZipArchive;
 using Entry = libzippp::ZipEntry;
-
+namespace fs = std::filesystem;
 
 namespace epub {
 
@@ -23,10 +29,15 @@ class EpubParser {
         ~EpubParser();
         StrList toc;
         StrList file_list;
-        std::string basedir;
+        fs::path basedir;
+        std::string name;
+        xmlDocPtr doc;
 
     private:
         Zip *ep;
+        bool Decompress(std::string file_name, Entry &entry);
+        bool ReadContent();
+        
 };
 
 

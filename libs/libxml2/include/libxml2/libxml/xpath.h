@@ -544,6 +544,9 @@ XMLPUBFUN int
 /**
  * Separate compilation/evaluation entry points.
  */
+XMLPUBFUN int
+xmlXPathRegisterNs(xmlXPathContextPtr ctxt, const xmlChar *prefix,
+			   const xmlChar *ns_uri);
 XMLPUBFUN xmlXPathCompExprPtr
 		    xmlXPathCompile		(const xmlChar *str);
 XMLPUBFUN xmlXPathCompExprPtr

@@ -44,15 +44,15 @@ bool EpubParser::ReadContent() {
     doc = xmlReadFile(basedir.append("content.xml").string().c_str(), NULL, 0);
     xmlXPathContextPtr context;
     context = xmlXPathNewContext(doc);
-    xmlChar *title_path = BAD_CAST "/package/metadata[1]/title";
+    xmlChar *title_path = BAD_CAST "/*/*/*[local-name()='title']";
     xmlChar *uuid_path = BAD_CAST "/package/metadata[1]/identifier[@id='uuid_id']";
     xmlXPathObjectPtr nodeptr;
     nodeptr = xmlXPathEvalExpression(title_path, context);
-    if (nodeptr == NULL) {
+    if (nodeptr == nullptr && nodeptr->nodesetval == nullptr && nodeptr->nodesetval->nodeNr <= 0) {
         std::cout << "error name" << std::endl;
         name = "Error";
     } else {
-        name = nodeptr->nodesetval->nodeTab[0].content;
+        name = xmlNodeGetContent(nodeptr->nodesetval->nodeTab[0]);
     }
     xmlXPathFreeContext(context);
 }

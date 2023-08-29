@@ -18,28 +18,34 @@ namespace fs = std::filesystem;
 
 namespace epub {
 
-const std::string container = "container.xml";
-const std::string container2 = "container.opf";
-const std::string container3 = "package.opf";
-const std::string container4 = "volume.opf";
+const std::string content = "content.xml";
+const std::string content2 = "content.opf";
+const std::string content3 = "package.opf";
+const std::string content4 = "volume.opf";
 
 class EpubParser {
     public:
         explicit EpubParser(std::string temp_dir, std::string file_name);
         ~EpubParser();
-        StrList toc;
-        StrList file_list;
+        std::string GetChapterPath(int index);
+        std::string GetChapterPath(std::string toc_name);
+
         fs::path basedir;
         std::string name;
+        std::string uuid;
+        std::string cover_path;
         xmlDocPtr doc;
 
     private:
         Zip *ep;
+        StrList toc;
+        StrList file_list;
+
         bool Decompress(std::string file_name, Entry &entry);
         bool ReadContent();
+        bool ReadToc();
         
 };
-
 
 }
 
